@@ -2,7 +2,7 @@
 
 This documentation covers the setup and capabilities of multiple MCP (Model Context Protocol) servers for database and cloud service integrations.
 
-## PostgreSQL MCP Servers Setup
+## 1. PostgreSQL MCP Servers Setup
 
 Below is the MCP configuration for connecting to multiple PostgreSQL databases:
 
@@ -35,7 +35,7 @@ Below is the MCP configuration for connecting to multiple PostgreSQL databases:
 }
 ```
 
-## PostgreSQL MCP Server Setup
+## 1.1 PostgreSQL MCP Server Setup
 
 The PostgreSQL MCP servers use the official package from the Model Context Protocol:
 
@@ -102,14 +102,79 @@ For production environments requiring more advanced capabilities, consider **Pos
 - **Safe SQL Execution** - Configurable read-only and restricted modes
 - **Workload Analysis** - Identify slow queries and resource bottlenecks
 
-## Configuration Explanation
+## 4. Configuration Explanation
 
 - **npx**: Node package executor that runs packages without installing them globally
 - **-y**: Auto-confirms prompts and skips interactive installation
 - **@modelcontextprotocol/server-postgres**: The official PostgreSQL MCP server package
 - **Connection String Format**: `postgresql://username:password@host:port/database`
 
-## Google Sheets MCP Server Setup
+## 2. LangGraph Documentation MCP Server Setup
+
+The LangGraph documentation MCP server provides access to comprehensive documentation for LangGraph and LangChain:
+
+```json
+"langgraph-docs-mcp": {
+  "command": "uvx", // Python package runner that executes packages from PyPI
+  "args": [
+    "--from", // Specify the package to install from
+    "mcpdoc", // Package name containing the MCP documentation server
+    "mcpdoc", // Command to run from the package
+    "--urls", // Documentation sources to index
+    "LangGraph:https://langchain-ai.github.io/langgraph/llms.txt LangChain:https://python.langchain.com/llms.txt", // Space-separated list of documentation URLs
+    "--transport", // Communication protocol
+    "stdio" // Standard input/output transport
+  ]
+}
+```
+
+### Configuration Parameters
+- **command**: "uvx" - Python package runner for executing packages from PyPI without installation
+- **args**: Array containing package specification and configuration options
+- **--from**: Specifies the source package (mcpdoc)
+- **--urls**: Documentation sources in format "Name:URL" separated by spaces
+- **--transport**: Communication protocol (stdio for standard input/output)
+
+### Available Tools
+
+The LangGraph documentation MCP server provides the following capabilities:
+
+#### **Documentation Access**
+- `list_doc_sources` - List all available documentation sources and their URLs
+- `fetch_docs` - Fetch and parse documentation from specific URLs or local files
+
+#### **Content Retrieval**
+- Access to comprehensive LangGraph documentation covering:
+  - Memory types (short-term, long-term, semantic, episodic, procedural)
+  - Agent architectures and multi-agent systems
+  - Graph construction and execution
+  - Streaming and persistence capabilities
+  - Human-in-the-loop workflows
+  - Platform deployment options
+
+#### **Search and Navigation**
+- Structured access to documentation sections
+- Cross-referencing between related topics
+- Real-time documentation updates from official sources
+
+### Capabilities & Limitations
+
+**✅ What it CAN do:**
+- Provide detailed explanations of LangGraph concepts and features
+- Access the latest documentation from official sources
+- Explain implementation patterns and best practices
+- Offer code examples and tutorials
+- Cover both basic and advanced LangGraph usage
+
+**❌ What it CANNOT do:**
+- Execute or run LangGraph code directly
+- Modify or update the documentation sources
+- Provide real-time debugging of LangGraph applications
+- Access private or custom documentation sources
+
+**Best for:** Learning LangGraph concepts, understanding implementation patterns, getting detailed explanations of features, and accessing comprehensive documentation for development guidance.
+
+## 3. Google Sheets MCP Server Setup
 
 The Google Sheets MCP server is provided by Composio and requires OAuth authentication:
 
@@ -165,7 +230,7 @@ The Google Sheets MCP server is provided by Composio and requires OAuth authenti
 
 **Best for:** Spreadsheet structure management, template creation, and data organization setup.
 
-## Connected Services
+## 5. Connected Services
 
 ### **Databases**
 1. **bi_chatbot**: Olist e-commerce dataset with 8 tables (customers, orders, products, etc.)
@@ -174,7 +239,10 @@ The Google Sheets MCP server is provided by Composio and requires OAuth authenti
 ### **Cloud Services**
 1. **Google Sheets**: Spreadsheet management and structure operations
 
-## Usage
+### **Documentation Services**
+1. **LangGraph Documentation**: Comprehensive documentation access for LangGraph and LangChain frameworks
+
+## 6. Usage
 
 After configuration, restart Cursor to enable the MCP servers. Each database will have its own query tool available in the chat interface.
 
